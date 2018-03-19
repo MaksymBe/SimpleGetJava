@@ -1,15 +1,14 @@
-import java.util.Date;
 
 public class Group {
     private String name;
-    private Date periodStart;
-    private Date periodFinish;
+    private String periodStart;
+    private String periodFinish;
     private Integer id;
 
     public Group() {
     }
 
-    public Group(String name, Date periodStart, Date periodFinish, Integer id){
+    public Group(String name, String periodStart, String periodFinish, Integer id){
         this.name = name;
         this.periodStart = periodStart;
         this.periodFinish = periodFinish;
@@ -24,19 +23,19 @@ public class Group {
         this.name = name;
     }
 
-    public Date getPeriodStart() {
+    public String getPeriodStart() {
         return periodStart;
     }
 
-    public void setPeriodStart(Date periodStart) {
+    public void setPeriodStart(String periodStart) {
         this.periodStart = periodStart;
     }
 
-    public Date getPeriodFinish() {
+    public String getPeriodFinish() {
         return periodFinish;
     }
 
-    public void setPeriodFinish(Date periodFinish) {
+    public void setPeriodFinish(String periodFinish) {
         this.periodFinish = periodFinish;
     }
 
