@@ -12,9 +12,9 @@ public class Main {
         ObjectMapper mapper = new ObjectMapper();
         Group[] groups = new Group[]{};
         try {
-            File src = new File(args[0]);
-            JsonNode obj = mapper.readTree(src);
-            JsonNode groupsNode = obj.get("groups");
+            File filePath = new File(args[0]);
+            JsonNode jsonInTree = mapper.readTree(filePath);
+            JsonNode groupsNode = jsonInTree.get("groups");
             groups = mapper.treeToValue(groupsNode, Group[].class);
         } catch (IOException e) {
             e.printStackTrace();
@@ -27,57 +27,29 @@ public class Main {
                 BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 PrintWriter out = new PrintWriter(client.getOutputStream());
                 String line = in.readLine();
-                String origin = null;
-                for(int i = 0; i < 3; i++){
-                    origin = in.readLine();
-                }
                 String[] wordsInRequest = line.split(" ");
-                if (checkRequest(wordsInRequest[0])) {
-                    out.print("HTTP/1.1 200 OK \r\n");
-                    out.print("Content-Type: application/json; charset=utf-8\r\n");
-                    out.print("Access-Control-Allow-Origin: *\r\n"); /* + origin.split(" ")[1] + "\r\n")*/
-                    //out.print("Connection: close\r\n");
-                    out.print("\r\n");
+                if (checkRequest(wordsInRequest[0]) && (isGroups(wordsInRequest[1]) || isGroupsById(wordsInRequest[1]))) {
+
                     if (isGroups(wordsInRequest[1])) {
-                        out.print(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(groups));
+                        printOkResponse(out, mapper.writerWithDefaultPrettyPrinter().writeValueAsString(groups));
+
                     } else if (isGroupsById(wordsInRequest[1])) {
                         String[] arrayToGetNumber = wordsInRequest[1].split("/");
-                        Integer groupId = Integer.parseInt(arrayToGetNumber[arrayToGetNumber.length-1]);
+                        Integer groupId = Integer.parseInt(arrayToGetNumber[arrayToGetNumber.length - 1]);
                         Boolean groupExists = false;
                         for (Group group : groups) {
-                            if(group.getId().equals(groupId))
-                            {
-                                out.print(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(group));
+                            if (group.getId().equals(groupId)) {
+                                printOkResponse(out, mapper.writerWithDefaultPrettyPrinter().writeValueAsString(group));
                                 groupExists = true;
                                 break;
                             }
                         }
-                        if(!groupExists){
-                            out.print("No such group");
+                        if (!groupExists) {
+                            print404Response(out);
                         }
                     }
-                }
-
-
-/*                X-Powered-By: Express
-                Access-Control-Allow-Origin: http://localhost:9000
-                Vary: Origin, Accept-Encoding
-                Access-Control-Allow-Credentials: true
-                Cache-Control: no-cache
-                Pragma: no-cache
-                Expires: -1
-                X-Content-Type-Options: nosniff
-                Content-Type: application/json; charset=utf-8
-                Content-Length: 232
-                ETag: W/"e8-2vURZ9ef862VdukLIVy1O0S0sHE"
-                Date: Tue, 20 Mar 2018 08:20:03 GMT
-                Connection: keep-alive*/
-
-                else {
-                    out.print("HTTP/1.1 404 \r\n");
-                    out.print("Content-Type: application/json; charset=utf-8\r\n");
-                    out.print("Connection: close\r\n");
-                    out.print("Not found");
+                } else {
+                    print404Response(out);
                 }
                 out.close();
                 in.close();
@@ -89,12 +61,28 @@ public class Main {
         }
     }
 
+    private static void printOkResponse(PrintWriter out, String data) {
+        out.print("HTTP/1.1 200 OK \r\n");
+        out.print("Content-Type: application/json; charset=utf-8\r\n");
+        out.print("Access-Control-Allow-Origin: *\r\n");
+        out.print("\r\n");
+        out.print(data);
+    }
+
+    private static void print404Response(PrintWriter out) {
+        out.print("HTTP/1.1 404 \r\n");
+        out.print("Content-Type: application/json; charset=utf-8\r\n");
+        out.print("Connection: close\r\n");
+        out.print("\r\n");
+        out.print("Not found\n");
+    }
+
     private static Boolean checkRequest(String s) {
         return s.equals("GET");
     }
 
     private static Boolean isGroups(String s) {
-        return s.equals("/groups")||s.equals("/groups/");
+        return s.matches("^/groups(/)*$");
     }
 
     private static Boolean isGroupsById(String s) {
