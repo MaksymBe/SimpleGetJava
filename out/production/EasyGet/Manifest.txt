@@ -1,0 +1,2 @@
+Main-Class: Main
+Class-Path: libs/jackson-annotations-2.9.3.jar libs/jackson-core-2.9.3.jar libs/jackson-databind-2.9.3.jar Group.class db.json
