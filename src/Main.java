@@ -8,8 +8,14 @@ import java.net.Socket;
 
 public class Main {
     public static void main(String[] args) {
-        Integer port = 3000;
+        Integer port;
+        try {
+            port = Integer.parseInt(args[1]);
+        } catch (Exception e) {
+            port = 3000;
+        }
         ObjectMapper mapper = new ObjectMapper();
+        System.out.println(port);
         Group[] groups = new Group[]{};
         try {
             File filePath = new File(args[0]);
@@ -26,7 +32,16 @@ public class Main {
                 Socket client = ss.accept();
                 BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 PrintWriter out = new PrintWriter(client.getOutputStream());
-                String line = in.readLine();
+
+
+
+
+
+
+
+
+                /*String line = in.readLine();
+                System.out.println(line);
                 String[] wordsInRequest = line.split(" ");
                 if (checkRequest(wordsInRequest[0]) && (isGroups(wordsInRequest[1]) || isGroupsById(wordsInRequest[1]))) {
 
@@ -50,7 +65,7 @@ public class Main {
                     }
                 } else {
                     print404Response(out);
-                }
+                }*/
                 out.close();
                 in.close();
                 client.close();
