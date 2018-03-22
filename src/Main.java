@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.stream.Collectors;
 
 
 public class Main {
@@ -30,13 +31,24 @@ public class Main {
             System.out.println("Listening on port " + port + "...");
             while (true) {
                 Socket client = ss.accept();
-                BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                PrintWriter out = new PrintWriter(client.getOutputStream());
+                RequestParser parser = new RequestParser();
+                Request req = parser.parseRequest(new InputStreamReader(client.getInputStream()));
+                System.out.println(req.getBody());
+                //BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+//                PrintWriter out = new PrintWriter(client.getOutputStream());
+
+//                String collect = new BufferedReader(new InputStreamReader(client.getInputStream())).lines().collect(Collectors.joining());
 
 
+/*                BufferedInputStream inputS = new BufferedInputStream(client.getInputStream());
+                byte[] buffer = new byte[1024];    //If you handle larger data use a bigger buffer size
+                int read;
+                while((read = inputS.read(buffer)) != -1) {
+                    System.out.println(read);
+                    // Your code to handle the data
+                }
 
-
-
+                System.out.println(new String(buffer));*/
 
 
 
@@ -66,8 +78,8 @@ public class Main {
                 } else {
                     print404Response(out);
                 }*/
-                out.close();
-                in.close();
+//                out.close();
+                //in.close();
                 client.close();
             }
         } catch (Exception e) {
