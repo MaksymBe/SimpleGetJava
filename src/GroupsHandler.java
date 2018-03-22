@@ -13,7 +13,7 @@ public class GroupsHandler {
         groups = new ArrayList<>();
     }
 
-    public GroupsHandler(String filePath) {
+    GroupsHandler(String filePath) {
         try {
 
             File file = new File(filePath);
@@ -26,16 +26,33 @@ public class GroupsHandler {
     }
 
     public Response getAllGroups(Request request) {
+        return generateDefaultResponse(groups, request);
+    }
+
+    public Response getGroupById(Request request){
+        String[] arrayToGetNumber = request.getPath().split("/");
+        Integer groupId = Integer.parseInt(arrayToGetNumber[arrayToGetNumber.length - 1]);
+        Group groupToReturn = null;
+        for (Group group : groups) {
+            if (group.getId().equals(groupId)) {
+                groupToReturn = group;
+                break;
+            }
+        }
+        return generateDefaultResponse(groupToReturn, request);
+
+    }
+
+    private Response generateDefaultResponse(Object data, Request request){
         try {
             Response response = new Response(request.getProtocol(), "200 OK ");
             response.addHeaderParameter("Content-Type: application/json; charset=utf-8");
             response.addHeaderParameter("Access-Control-Allow-Origin: *");
-            response.setBody(getStringForBody(groups));
+            response.setBody(getStringForBody(data));
             return response;
         } catch (Exception e) {
             return new Response();
         }
-
     }
 
     private String getStringForBody(Object data) throws Exception{

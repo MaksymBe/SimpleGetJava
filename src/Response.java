@@ -10,7 +10,7 @@ class Response {
 
 
     Response() {
-        headers = new Hashtable<String, String>();
+        headers = new Hashtable<>();
         body = new StringBuffer();
 
 
@@ -24,8 +24,11 @@ class Response {
     }
 
     Response(String protocol, String status) {
+
         this.protocol = protocol;
         this.status = status;
+        headers = new Hashtable<>();
+        body = new StringBuffer();
     }
 
     void setBody(String bodyLine) {
@@ -62,14 +65,9 @@ class Response {
         return body;
     }
 
-    public void sendResponse(OutputStream clientStream) {
-        PrintWriter printWriter = new PrintWriter(clientStream);
+    public void sendResponse(PrintWriter printWriter) {
         printWriter.print(getStatusLine());
         printWriter.print(getHeadersAsString() + "\r\n");
-        printWriter.print(getBody());
-/*        printWriter.print("Content-Type: application/json; charset=utf-8\r\n");
-        printWriter.print("Access-Control-Allow-Origin: *\r\n");
-        printWriter.print("\r\n");
-        // printWriter.print(data);*/
+        printWriter.print(getBody().toString());
     }
 }

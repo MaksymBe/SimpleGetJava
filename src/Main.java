@@ -4,18 +4,30 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.stream.Collectors;
+import java.util.regex.Pattern;
 
 
 public class Main {
     public static void main(String[] args) {
         Integer port;
+        String filePath;
         try {
             port = Integer.parseInt(args[1]);
         } catch (Exception e) {
             port = 3000;
         }
-        ObjectMapper mapper = new ObjectMapper();
+        try {
+            filePath = args[0];
+        } catch (Exception e) {
+            filePath = "../db.json";
+        }
+        GroupsHandler groupsHandler = new GroupsHandler(filePath);
+        Router router = new Router();
+        router.addHandler("GET", "/groups/", groupsHandler::getAllGroups);
+        router.addHandler("GET", "/groups/:id", groupsHandler::getGroupById);
+        Server server = new Server(port, router);
+        server.start();
+        /*ObjectMapper mapper = new ObjectMapper();
         System.out.println(port);
         Group[] groups = new Group[]{};
         try {
@@ -40,7 +52,7 @@ public class Main {
 //                String collect = new BufferedReader(new InputStreamReader(client.getInputStream())).lines().collect(Collectors.joining());
 
 
-/*                BufferedInputStream inputS = new BufferedInputStream(client.getInputStream());
+*//*                BufferedInputStream inputS = new BufferedInputStream(client.getInputStream());
                 byte[] buffer = new byte[1024];    //If you handle larger data use a bigger buffer size
                 int read;
                 while((read = inputS.read(buffer)) != -1) {
@@ -48,11 +60,11 @@ public class Main {
                     // Your code to handle the data
                 }
 
-                System.out.println(new String(buffer));*/
+                System.out.println(new String(buffer));*//*
 
 
 
-                /*String line = in.readLine();
+                *//*String line = in.readLine();
                 System.out.println(line);
                 String[] wordsInRequest = line.split(" ");
                 if (checkRequest(wordsInRequest[0]) && (isGroups(wordsInRequest[1]) || isGroupsById(wordsInRequest[1]))) {
@@ -77,7 +89,7 @@ public class Main {
                     }
                 } else {
                     print404Response(out);
-                }*/
+                }*//*
 //                out.close();
                 //in.close();
                 client.close();
@@ -85,7 +97,7 @@ public class Main {
         } catch (Exception e) {
             System.err.println(e.toString());
             System.err.println("Usage: java HttpMirror <port>");
-        }
+        }*/
     }
 
     private static void printOkResponse(PrintWriter out, String data) {
@@ -96,13 +108,7 @@ public class Main {
         out.print(data);
     }
 
-    private static void print404Response(PrintWriter out) {
-        out.print("HTTP/1.1 404 \r\n");
-        out.print("Content-Type: application/json; charset=utf-8\r\n");
-        out.print("Connection: close\r\n");
-        out.print("\r\n");
-        out.print("Not found\n");
-    }
+
 
     private static Boolean checkRequest(String s) {
         return s.equals("GET");

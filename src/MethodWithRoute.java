@@ -1,4 +1,5 @@
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class MethodWithRoute {
     private String method;
@@ -28,7 +29,6 @@ public class MethodWithRoute {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(method, route);
     }
 }

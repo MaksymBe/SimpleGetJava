@@ -1,4 +1,3 @@
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,10 +7,9 @@ public class Router {
 
     public Router(Map<MethodWithRoute, Handler> handlers) {
         this.handlers = handlers;
-        GroupsHandler a = new GroupsHandler();
     }
 
-    public Router() {
+    Router() {
         handlers = new HashMap<MethodWithRoute, Handler>();
     }
 
@@ -20,7 +18,23 @@ public class Router {
     }
 
     public Handler getRequestHandler(String method, String path) {
-        return handlers.get(new MethodWithRoute(method, path));
+        Handler handler;
+        if((handler = handlers.get(new MethodWithRoute(method, path)))!=null)
+        return handler;
+        else return this::print404Response;
+    }
+
+    private Response print404Response(Request request) {
+        try {
+            Response response = new Response("HTTP/1.1", "200 OK ");
+            response.addHeaderParameter("Content-Type: application/json; charset=utf-8");
+            response.addHeaderParameter("CConnection: close");
+            response.addHeaderParameter("Access-Control-Allow-Origin: *");
+            response.setBody("Not found");
+            return response;
+        } catch (Exception e) {
+            return new Response();
+        }
     }
 
 }

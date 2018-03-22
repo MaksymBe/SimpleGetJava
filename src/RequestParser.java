@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.Hashtable;
-import java.util.stream.Collectors;
 
 public class RequestParser {
     private StringBuffer body;
@@ -10,12 +9,12 @@ public class RequestParser {
     private String protocol;
 
     public RequestParser() {
-        headers = new Hashtable<String, String>();
+        headers = new Hashtable<>();
         body = new StringBuffer();
     }
 
     private void ClearFields() {
-        headers = new Hashtable<String, String>();
+        headers = new Hashtable<>();
         body = new StringBuffer();
         method = "";
         path = "";
@@ -23,29 +22,16 @@ public class RequestParser {
     }
 
     public Request parseString(String stringToParse) throws Exception {
-        return parseRequest(new StringReader(stringToParse));
+        return parseRequest(new BufferedReader(new StringReader(stringToParse)));
     }
 
-    public Request parseRequest(Reader request) {
+    public Request parseRequest(BufferedReader reader) {
         try {
-            BufferedReader reader = new BufferedReader(request);
             setRequestLine(reader.readLine());
-
-            if (parseRequestHeaders(reader)) {
+            Boolean hasBody = parseRequestHeaders(reader);
+            if (hasBody) {
                 parseRequestBody(reader);
-                /*Integer bodyLine;
-                for (int i = 0; i < Integer.parseInt(headers.get("Content-Length")); i++) {
-                    bodyLine = reader.read();
-                    appendMessageBody(new String(bodyLine));
-                }*/
-                /*String bodyLine;
-                while (body.toString().getBytes().length
-                        <= Integer.parseInt(headers.get("Content-Length"))+2) {
-                    bodyLine = reader.readLine();
-                    appendMessageBody(bodyLine);
-                }*/
             }
-            reader.close();
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
@@ -69,15 +55,17 @@ public class RequestParser {
     }
 
     private void parseRequestBody(BufferedReader reader) throws Exception {
-        char[] body = new char[getContentLength()];
+        String contentLength = getContentLength();
+        if(contentLength == null) return;
+        char[] body = new char[Integer.parseInt(contentLength)];
 
         reader.read(body, 0, body.length);
 
         appendMessageBody(new String(body));
     }
 
-    private int getContentLength() {
-        return Integer.parseInt(headers.get("Content-Length"));
+    private String getContentLength() {
+        return headers.get("content-length");
     }
 
     private void setRequestLine(String query) throws Exception {
