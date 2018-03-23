@@ -13,7 +13,7 @@ public class Router {
         this.errorHandler = errorHandler;
     }
 
-    Router() {
+    public Router() {
         handlers = new HashMap<>();
     }
 

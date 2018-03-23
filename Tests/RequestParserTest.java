@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,9 +21,9 @@ class RequestParserTest {
         String post = "POST / HTTP/1.1\n";
         String delete = "DELETE / HTTP/1.1\n" +
                 "Host: localhost:3000\n";
-        assertEquals("GET", requestParser.parseString(get).getMethod());
-        assertEquals("POST", requestParser.parseString(post).getMethod());
-        assertEquals("DELETE", requestParser.parseString(delete).getMethod());
+        Assertions.assertEquals("GET", requestParser.parseString(get).getMethod());
+        Assertions.assertEquals("POST", requestParser.parseString(post).getMethod());
+        Assertions.assertEquals("DELETE", requestParser.parseString(delete).getMethod());
     }
 
     @Test
@@ -38,7 +39,7 @@ class RequestParserTest {
                 "Accept-Encoding: gzip, deflate, br\n" +
                 "Accept-Language: en-US,en;q=0.9\n" +
                 "Cookie: Webstorm-1d8981e1=d201260b-715a-4fca-b54b-5b3bcb06a673\n";
-        assertEquals("localhost:3000", requestParser.parseString(get).getHeaders("host"));
+        Assertions.assertEquals("localhost:3000", requestParser.parseString(get).getHeaders("host"));
     }
 
     @Test
@@ -55,7 +56,7 @@ class RequestParserTest {
                 "    \"name\": \"inCamp8\",\n" +
                 "    \"period\": \"05.03.2018-05.06.2018\"\n" +
                 "}";
-        assertEquals("{\n" +
+        Assertions.assertEquals("{\n" +
                 "    \"name\": \"inCamp8\",\n" +
                 "    \"period\": \"05.03.2018-05.06.2018\"\n" +
                 "}\r\n", requestParser.parseString(get).getBody());

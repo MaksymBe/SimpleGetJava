@@ -12,8 +12,4 @@ public class Dispatcher {
     public Response processRequest(Request request) {
         return getRequestHandler(request).getResponse(request);
     }
-
-    private Boolean isById(String s) {
-        return s.matches("^/[a-zA-z]+/\\d+(/$|$)");
-    }
 }

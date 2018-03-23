@@ -1,0 +1,2 @@
+Main-Class: Main
+Class-Path: src/libs/jackson-annotations-2.9.3.jar src/libs/jackson-core-2.9.3.jar src/libs/jackson-databind-2.9.3.jar src/*.class

@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
-cd src
 
-javac -cp libs/jackson-annotations-2.9.3.jar:libs/jackson-core-2.9.3.jar:libs/jackson-databind-2.9.3.jar *.java
+javac -cp src/libs/jackson-annotations-2.9.3.jar:src/libs/jackson-core-2.9.3.jar:src/libs/jackson-databind-2.9.3.jar src/*.java
 
-jar cfm Main.jar Manifest.txt Main.class libs/jackson-annotations-2.9.3.jar libs/jackson-core-2.9.3.jar libs/jackson-databind-2.9.3.jar Group.class
+jar cfm Main.jar Manifest.txt src/Main.class src/libs/jackson-annotations-2.9.3.jar src/libs/jackson-core-2.9.3.jar src/libs/jackson-databind-2.9.3.jar src/*.class
 
-java -jar  Main.jar ../db.json
+java -jar  src/Main.jar db.json
 
 
