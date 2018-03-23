@@ -18,8 +18,6 @@ public class Main {
         router.addHandler("GET", "/groups/:id/", groupsHandler::getGroupById);
         router.addHandler("POST", "/groups/", groupsHandler::createGroup);
         router.addHandler("DELETE", "/groups/:id/", groupsHandler::deleteGroup);
-        router.addHandler("OPTIONS", "/groups/", groupsHandler::optionsProcessing);
-        router.addHandler("OPTIONS", "/groups/:id/", groupsHandler::optionsProcessing);
         router.addHandler("PATCH", "/groups/:id/", groupsHandler::updateGroup);
         Server server = new Server(port, router);
         server.start();

@@ -30,19 +30,17 @@ public class GroupsHandler {
     }
 
     public Response getAllGroups(Request request) {
-        return generateDefaultResponse(groups, request);
+        return generateDefaultResponse(groups, request, "200 OK");
     }
 
     public Response getGroupById(Request request) {
         Integer groupId = getGroupId(request.getPath());
-        Group groupToReturn = null;
         for (Group group : groups) {
             if (group.getId().equals(groupId)) {
-                groupToReturn = group;
-                break;
+                return generateDefaultResponse(group, request, "200 OK");
             }
         }
-        return generateDefaultResponse(groupToReturn, request);
+        return print404Response(request);
 
     }
 
@@ -55,7 +53,7 @@ public class GroupsHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return generateDefaultResponse(group, request);
+        return generateDefaultResponse(group, request, "201 Created");
     }
 
     public Response deleteGroup(Request request) {
@@ -68,23 +66,7 @@ public class GroupsHandler {
                 break;
             }
         }
-        return generateDefaultResponse(groupToReturn, request);
-    }
-
-    public Response optionsProcessing(Request request) {
-        Response response = new Response(request.getProtocol(), "204 No Content ");
-        try {
-            response.addHeaderParameter("Access-Control-Allow-Credentials: true");
-            response.addHeaderParameter("Access-Control-Allow-Headers: content-type");
-            response.addHeaderParameter("Access-Control-Allow-Methods: GET,HEAD,PUT,PATCH,POST,DELETE");
-            response.addHeaderParameter("Access-Control-Allow-Origin: " + request.getHeaders("origin"));
-            response.addHeaderParameter("Connection: keep-alive");
-            response.addHeaderParameter("Content-Length: 0");
-            response.addHeaderParameter("Vary: Origin, Access-Control-Request-Headers");
-            return response;
-        } catch (Exception e) {
-            return new Response();
-        }
+        return generateDefaultResponse(groupToReturn, request, "204 No Content");
     }
 
     public Response updateGroup(Request request){
@@ -98,7 +80,7 @@ public class GroupsHandler {
                 break;
             }
         }
-        return generateDefaultResponse(groupToReturn, request);
+        return generateDefaultResponse(groupToReturn, request, "201 Modified");
     }
 
     private Integer getGroupId(String route) {
@@ -106,9 +88,9 @@ public class GroupsHandler {
         return Integer.parseInt(arrayToGetNumber[arrayToGetNumber.length - 1]);
     }
 
-    private Response generateDefaultResponse(Object data, Request request) {
+    private Response generateDefaultResponse(Object data, Request request, String status) {
         try {
-            Response response = new Response(request.getProtocol(), "200 OK ");
+            Response response = new Response(request.getProtocol(), status);
             response.addHeaderParameter("Content-Type: application/json; charset=utf-8");
             response.addHeaderParameter("Access-Control-Allow-Origin: *");
             response.setBody(getStringForBody(data));
@@ -120,6 +102,18 @@ public class GroupsHandler {
 
     private String getStringForBody(Object data) throws Exception {
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data);
+    }
+
+    private Response print404Response(Request request) {
+        try {
+            Response response = new Response("HTTP/1.1", "404 Not Found ");
+            response.addHeaderParameter("Content-Type: plain/text");
+            response.addHeaderParameter("Connection: close");
+            response.setBody("Group not found");
+            return response;
+        } catch (Exception e) {
+            return new Response();
+        }
     }
 
 

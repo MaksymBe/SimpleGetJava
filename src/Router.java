@@ -1,11 +1,12 @@
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class Router {
-    private Map<MethodWithRoute, Handler> handlers;
+    private Map<MethodAndPath, Handler> handlers;
     private Handler errorHandler = this::print404Response;
 
-    public Router(Map<MethodWithRoute, Handler> handlers) {
+    public Router(Map<MethodAndPath, Handler> handlers) {
         this.handlers = handlers;
     }
 
@@ -18,20 +19,44 @@ public class Router {
     }
 
     public void addHandler(String method, String path, Handler handler) {
-        handlers.put(new MethodWithRoute(method, path), handler);
+        String[] pathWords = path.split("/");
+        MethodAndPath methodAndPath = new MethodAndPath(method, path);
+        for (String word : pathWords) {
+            if (word.matches(":.+(/|$)")) {
+                methodAndPath.addParameter(word.substring(1, word.length()));
+            }
+        }
+        methodAndPath.setPath(path.replaceAll("/\\d+(/|$)", "/:id/"));
+        handlers.put(methodAndPath, handler);
     }
 
-    public Handler getRequestHandler(String method, String path) {
+    public Route getRoute(String method, String path) {
         Handler handler;
+        String[] pathWords = path.split("/");
         path = path.replaceAll("/\\d+/", "/:id/");
-        if ((handler = handlers.get(new MethodWithRoute(method, path))) != null)
-            return handler;
-        else return this::print404Response;
+        if ((handler = handlers.get(new MethodAndPath(method, path))) == null) return new Route(this::print404Response);
+        HashMap<String, Integer> params = new HashMap<>();
+        MethodAndPath[] keys = handlers.keySet().toArray(new MethodAndPath[] {});
+
+        MethodAndPath key = null;
+        for(MethodAndPath methodAndPath: keys){
+            if(methodAndPath.equals(new MethodAndPath(method, path))){
+                key = methodAndPath;
+            }
+        }
+        int counter = 0;
+        String[] keyParams = key.getParams();
+        for (int i = 0; i < pathWords.length; i++) {
+            if (pathWords[i].matches("\\d+")) {
+            params.put(keyParams[counter++], Integer.parseInt(pathWords[i]));
+            }
+        }
+        return new Route(handler, params);
     }
 
     private Response print404Response(Request request) {
         try {
-            Response response = new Response("HTTP/1.1", "200 OK ");
+            Response response = new Response("HTTP/1.1", "404 Not Found ");
             response.addHeaderParameter("Content-Type: plain/text");
             response.addHeaderParameter("Connection: close");
             response.setBody("Not found");

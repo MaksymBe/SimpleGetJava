@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class RouterTest {
 
     @Test
@@ -12,6 +10,6 @@ class RouterTest {
         String pattern = "/groups/:id/";
         router.addHandler("GET", pattern, handler);
 
-        Assertions.assertEquals(handler, router.getRequestHandler("GET", "/groups/5/"));
+        Assertions.assertEquals(handler, router.getRoute("GET", "/groups/5/"));
     }
 }
