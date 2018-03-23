@@ -8,9 +8,9 @@ class RouterTest {
     void getRequestHandler() {
         Router router = new Router();
         Handler handler = r -> new Response();
-        String pattern = "/groups/:id";
+        String pattern = "/groups/:id/";
         router.addHandler("GET", pattern, handler);
 
-        assertEquals(handler, router.getRequestHandler("GET", "/groups/:id"));
+        assertEquals(handler, router.getRequestHandler("GET", "/groups/5/"));
     }
 }

@@ -8,34 +8,35 @@ public class Server {
     private ServerSocket serverSocket = null;
     private RequestParser requestParser = new RequestParser();
     private Router router;
-    public Server(int port, int backlog, InetAddress address, Router router){
-        try{
+
+    public Server(int port, int backlog, InetAddress address, Router router) {
+        try {
             serverSocket = new ServerSocket(port, backlog, address);
             this.router = router;
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public Server(int port, InetAddress address, Router router){
-        try{
+    public Server(int port, InetAddress address, Router router) {
+        try {
             serverSocket = new ServerSocket(port, 5, address);
             this.router = router;
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public Server(int port, Router router){
-        try{
+    public Server(int port, Router router) {
+        try {
             serverSocket = new ServerSocket(port);
             this.router = router;
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void start(){
+    public void start() {
         System.out.println("Listening on port " + serverSocket.getLocalPort() + "...");
         try {
             while (true) {

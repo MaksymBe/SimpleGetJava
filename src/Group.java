@@ -8,7 +8,7 @@ public class Group {
     public Group() {
     }
 
-    public Group(String name, String periodStart, String periodFinish, Integer id){
+    public Group(String name, String periodStart, String periodFinish, Integer id) {
         this.name = name;
         this.periodStart = periodStart;
         this.periodFinish = periodFinish;
@@ -45,5 +45,11 @@ public class Group {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void patch(Group group) {
+        name = (group.getName() != null) ? group.getName() : name;
+        periodFinish = (group.getPeriodFinish() != null) ? group.getPeriodFinish() : periodFinish;
+        periodStart = (group.getPeriodStart() != null) ? group.getPeriodStart() : periodStart;
     }
 }

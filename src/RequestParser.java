@@ -36,12 +36,11 @@ public class RequestParser {
             throw new IllegalStateException(e);
         }
         Request req = new Request(method, path, protocol, headers, body);
-        String asd = body.toString();
         ClearFields();
         return req;
     }
 
-    private Boolean parseRequestHeaders(BufferedReader reader){
+    private Boolean parseRequestHeaders(BufferedReader reader) {
         try {
             String header = reader.readLine();
             while (header.length() > 0) {
@@ -56,11 +55,9 @@ public class RequestParser {
 
     private void parseRequestBody(BufferedReader reader) throws Exception {
         String contentLength = getContentLength();
-        if(contentLength == null) return;
+        if (contentLength == null) return;
         char[] body = new char[Integer.parseInt(contentLength)];
-
         reader.read(body, 0, body.length);
-
         appendMessageBody(new String(body));
     }
 
@@ -74,7 +71,7 @@ public class RequestParser {
         }
         String[] queryArray = query.split(" ");
         this.method = queryArray[0];
-        this.path = (queryArray[1].charAt(queryArray[1].length() - 1) == '/') ? queryArray[1] :queryArray[1]+"/";
+        this.path = (queryArray[1].charAt(queryArray[1].length() - 1) == '/') ? queryArray[1] : queryArray[1] + "/";
         this.protocol = queryArray[2];
     }
 
@@ -83,7 +80,7 @@ public class RequestParser {
         if (idx == -1) {
             throw new Exception("Invalid Header Parameter: " + header);
         }
-        headers.put(header.substring(0, idx), header.substring(idx + 2, header.length()));
+        headers.put(header.substring(0, idx).toLowerCase(), header.substring(idx + 2, header.length()));
     }
 
     private void appendMessageBody(String bodyLine) {

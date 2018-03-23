@@ -24,7 +24,12 @@ public class Main {
         GroupsHandler groupsHandler = new GroupsHandler(filePath);
         Router router = new Router();
         router.addHandler("GET", "/groups/", groupsHandler::getAllGroups);
-        router.addHandler("GET", "/groups/:id", groupsHandler::getGroupById);
+        router.addHandler("GET", "/groups/:id/", groupsHandler::getGroupById);
+        router.addHandler("POST", "/groups/", groupsHandler::createGroup);
+        router.addHandler("DELETE", "/groups/:id/", groupsHandler::deleteGroup);
+        router.addHandler("OPTIONS", "/groups/", groupsHandler::optionsProcessing);
+        router.addHandler("OPTIONS", "/groups/:id/", groupsHandler::optionsProcessing);
+        router.addHandler("PATCH", "/groups/:id/", groupsHandler::updateGroup);
         Server server = new Server(port, router);
         server.start();
         /*ObjectMapper mapper = new ObjectMapper();
@@ -64,7 +69,7 @@ public class Main {
 
 
 
-                *//*String line = in.readLine();
+         *//*String line = in.readLine();
                 System.out.println(line);
                 String[] wordsInRequest = line.split(" ");
                 if (checkRequest(wordsInRequest[0]) && (isGroups(wordsInRequest[1]) || isGroupsById(wordsInRequest[1]))) {
@@ -107,7 +112,6 @@ public class Main {
         out.print("\r\n");
         out.print(data);
     }
-
 
 
     private static Boolean checkRequest(String s) {

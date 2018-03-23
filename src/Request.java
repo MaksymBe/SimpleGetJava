@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Hashtable;
 
 public class Request {
@@ -43,5 +45,17 @@ public class Request {
 
     public String getHeadersAsString() {
         return headers.toString();
+    }
+
+    public Object getBodyAsObject(Class className) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Object obj = mapper.readValue(getBody(), className);
+            return  obj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Object();
+        }
+
     }
 }

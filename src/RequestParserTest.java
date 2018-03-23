@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class RequestParserTest {
 
     @Test
-    void methodInRequestTest() throws Exception{
+    void methodInRequestTest() throws Exception {
         RequestParser requestParser = new RequestParser();
         String get = "GET / HTTP/1.1\n" +
                 "Host: localhost:3000\n" +
@@ -26,7 +26,7 @@ class RequestParserTest {
     }
 
     @Test
-    void headerInRequestTest() throws Exception{
+    void headerInRequestTest() throws Exception {
         RequestParser requestParser = new RequestParser();
         String get = "GET / HTTP/1.1\n" +
                 "Host: localhost:3000\n" +
@@ -38,11 +38,11 @@ class RequestParserTest {
                 "Accept-Encoding: gzip, deflate, br\n" +
                 "Accept-Language: en-US,en;q=0.9\n" +
                 "Cookie: Webstorm-1d8981e1=d201260b-715a-4fca-b54b-5b3bcb06a673\n";
-        assertEquals("localhost:3000", requestParser.parseString(get).getHeaders("Host"));
+        assertEquals("localhost:3000", requestParser.parseString(get).getHeaders("host"));
     }
 
     @Test
-    void bodyInRequestTest() throws Exception{
+    void bodyInRequestTest() throws Exception {
         RequestParser requestParser = new RequestParser();
         String get = "POST /dfsfs HTTP/1.1\n" +
                 "Host: localhost:3000\n" +
