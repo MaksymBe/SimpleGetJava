@@ -1,18 +1,12 @@
 public class Main {
     public static void main(String[] args) {
         Integer port;
-        String filePath;
         try {
-            port = Integer.parseInt(args[1]);
+            port = Integer.parseInt(args[0]);
         } catch (Exception e) {
             port = 3000;
         }
-        try {
-            filePath = args[0];
-        } catch (Exception e) {
-            filePath = "../db.json";
-        }
-        GroupsHandler groupsHandler = new GroupsHandler(filePath);
+        GroupsHandler groupsHandler = new GroupsHandler();
         Router router = new Router();
         router.addHandler("GET", "/groups/", groupsHandler::getAllGroups);
         router.addHandler("GET", "/groups/:id/", groupsHandler::getGroupById);
@@ -22,5 +16,4 @@ public class Main {
         Server server = new Server(port, router);
         server.start();
     }
-
 }

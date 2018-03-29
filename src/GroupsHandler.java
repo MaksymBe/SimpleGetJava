@@ -7,49 +7,43 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GroupsHandler {
-    private ArrayList<Group> groups;
     private ObjectMapper mapper = new ObjectMapper();
-    private Integer maxId = 0;
+    private DBController dbController;
 
     GroupsHandler() {
-        groups = new ArrayList<>();
+        dbController = new DBController("root", "root");
     }
 
-    GroupsHandler(String filePath) {
+    GroupsHandler(String userName, String pass) {
         try {
-            File file = new File(filePath);
-            JsonNode jsonInTree = mapper.readTree(file);
-            JsonNode groupsNode = jsonInTree.get("groups");
-            groups = new ArrayList<>(Arrays.asList(mapper.treeToValue(groupsNode, Group[].class)));
-            groups.forEach((group) -> {
-                if (group.getId() > maxId) maxId = group.getId();
-            });
-        } catch (IOException e) {
+            dbController = new DBController(userName, pass);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public Response getAllGroups(Request request) {
-        return generateDefaultResponse(groups, request, "200 OK");
+        try {
+            return generateDefaultResponse(dbController.getAllGroups(), request, "200 OK");
+        } catch (Exception e) {
+            return print404Response(request);
+        }
     }
 
     public Response getGroupById(Request request) {
         Integer groupId = getGroupId(request.getPath());
-        for (Group group : groups) {
-            if (group.getId().equals(groupId)) {
-                return generateDefaultResponse(group, request, "200 OK");
-            }
+        try{
+            return generateDefaultResponse(dbController.getGroupById(groupId), request, "200 OK");
+        } catch (Exception e) {
+            return print404Response(request);
         }
-        return print404Response(request);
-
     }
 
     public Response createGroup(Request request) {
         Group group = new Group();
         try {
             group = mapper.readValue(request.getBody(), Group.class);
-            group.setId(++maxId);
-            groups.add(group);
+            group = dbController.create(group);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,27 +52,21 @@ public class GroupsHandler {
 
     public Response deleteGroup(Request request) {
         Integer groupId = getGroupId(request.getPath());
-        Group groupToReturn = null;
-        for (Group group : groups) {
-            if (group.getId().equals(groupId)) {
-                groupToReturn = group;
-                groups.remove(group);
-                break;
-            }
+        try{
+            return generateDefaultResponse(dbController.delete(groupId), request, "204 No Content");
+        } catch (Exception e){
+            return print404Response(request);
         }
-        return generateDefaultResponse(groupToReturn, request, "204 No Content");
     }
 
-    public Response updateGroup(Request request){
+    public Response updateGroup(Request request) {
         Integer groupId = getGroupId(request.getPath());
         Group patch = (Group) request.getBodyAsObject(Group.class);
         Group groupToReturn = null;
-        for (Group group : groups) {
-            if (group.getId().equals(groupId)) {
-                group.patch(patch);
-                groupToReturn = group;
-                break;
-            }
+        try{
+            groupToReturn = dbController.update(groupId, patch);
+        } catch (Exception e){
+            e.printStackTrace();
         }
         return generateDefaultResponse(groupToReturn, request, "201 Modified");
     }
