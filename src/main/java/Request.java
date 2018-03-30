@@ -50,7 +50,7 @@ public class Request {
     public Object getBodyAsObject(Class className) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            return  mapper.readValue(getBody(), className);
+            return mapper.readValue(getBody(), className);
         } catch (Exception e) {
             e.printStackTrace();
             return new Object();

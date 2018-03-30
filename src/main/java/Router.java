@@ -35,11 +35,11 @@ public class Router {
         path = path.replaceAll("/\\d+/", "/:id/");
         if ((handler = handlers.get(new MethodAndPath(method, path))) == null) return new Route(this::print404Response);
         HashMap<String, Integer> params = new HashMap<>();
-        MethodAndPath[] keys = handlers.keySet().toArray(new MethodAndPath[] {});
+        MethodAndPath[] keys = handlers.keySet().toArray(new MethodAndPath[]{});
 
         MethodAndPath key = null;
-        for(MethodAndPath methodAndPath: keys){
-            if(methodAndPath.equals(new MethodAndPath(method, path))){
+        for (MethodAndPath methodAndPath : keys) {
+            if (methodAndPath.equals(new MethodAndPath(method, path))) {
                 key = methodAndPath;
             }
         }
@@ -47,7 +47,7 @@ public class Router {
         String[] keyParams = key.getParams();
         for (int i = 0; i < pathWords.length; i++) {
             if (pathWords[i].matches("\\d+")) {
-            params.put(keyParams[counter++], Integer.parseInt(pathWords[i]));
+                params.put(keyParams[counter++], Integer.parseInt(pathWords[i]));
             }
         }
         return new Route(handler, params);

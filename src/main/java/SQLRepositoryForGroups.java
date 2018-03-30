@@ -25,20 +25,20 @@ public class SQLRepositoryForGroups implements Repository<Group> {
         System.out.println('\n');
     }
 
-    public Group[] getAll() throws RepositoryException{
-        try{
+    public Group[] getAll() throws RepositoryException {
+        try {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM groups");
             ArrayList<Group> groups = new ArrayList<>();
             while (resultSet.next()) {
                 groups.add(createGroup(resultSet));
             }
             return groups.toArray(new Group[]{});
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RepositoryException();
         }
     }
 
-    public Group getById(Integer id)  throws RepositoryException{
+    public Group getById(Integer id) throws RepositoryException {
         try {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM groups WHERE id=" + id);
             resultSet.next();
@@ -48,7 +48,7 @@ public class SQLRepositoryForGroups implements Repository<Group> {
         }
     }
 
-    public Group delete(Integer id) throws RepositoryException{
+    public Group delete(Integer id) throws RepositoryException {
         try {
             Group group = getById(id);
             statement.executeUpdate("DELETE FROM groups WHERE id=" + id);
@@ -59,7 +59,7 @@ public class SQLRepositoryForGroups implements Repository<Group> {
 
     }
 
-    public Group update(Integer id, Group group) throws RepositoryException{
+    public Group update(Integer id, Group group) throws RepositoryException {
         try {
             Group oldGroup = getById(id);
             oldGroup.patch(group);
@@ -74,7 +74,7 @@ public class SQLRepositoryForGroups implements Repository<Group> {
 
     }
 
-    public Group create(Group group) throws RepositoryException{
+    public Group create(Group group) throws RepositoryException {
         try {
             statement.executeUpdate("INSERT INTO groups(name, periodStart, periodFinish) VALUES(\""
                     + group.getName() + "\", \""
@@ -94,14 +94,14 @@ public class SQLRepositoryForGroups implements Repository<Group> {
     }
 
     private Group createGroup(ResultSet resultSet) throws RepositoryException {
-        try{
+        try {
             Group group = new Group();
             group.setId(resultSet.getInt(1));
             group.setName(resultSet.getString("name"));
             group.setPeriodStart(resultSet.getString("periodStart"));
             group.setPeriodFinish(resultSet.getString("periodFinish"));
             return group;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RepositoryException();
         }
 

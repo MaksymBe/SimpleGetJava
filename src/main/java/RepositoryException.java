@@ -1,4 +1,4 @@
-public class RepositoryException extends Exception{
+public class RepositoryException extends Exception {
     public RepositoryException() {
     }
 }

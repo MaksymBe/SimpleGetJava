@@ -10,7 +10,7 @@ public class Dispatcher {
     }
 
     public Response processRequest(Request request) {
-        if(request.getMethod().equals("OPTIONS")) return optionsProcessing(request);
+        if (request.getMethod().equals("OPTIONS")) return optionsProcessing(request);
         return getRequestHandler(request).getHandler().getResponse(request);
     }
 

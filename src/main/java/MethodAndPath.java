@@ -30,7 +30,7 @@ public class MethodAndPath {
         return path;
     }
 
-    public void addParameter(String parameter){
+    public void addParameter(String parameter) {
         params.add(parameter);
     }
 
