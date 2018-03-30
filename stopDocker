@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+docker stop mysql-container
+docker rm mysql-container
