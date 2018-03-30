@@ -1,22 +1,16 @@
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GroupsHandler {
     private ObjectMapper mapper = new ObjectMapper();
-    private DBController dbController;
+    private Repository<Group> repository;
 
     GroupsHandler() {
-        dbController = new DBController("max", "qwerty");
+        repository = new SQLRepositoryForGroups("max", "qwerty");
     }
 
     GroupsHandler(String userName, String pass) {
         try {
-            dbController = new DBController(userName, pass);
+            repository = new SQLRepositoryForGroups(userName, pass);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -24,17 +18,17 @@ public class GroupsHandler {
 
     public Response getAllGroups(Request request) {
         try {
-            return generateDefaultResponse(dbController.getAllGroups(), request, "200 OK");
-        } catch (Exception e) {
+            return generateDefaultResponse(repository.getAll(), request, "200 OK");
+        } catch (RepositoryException e) {
             return print404Response(request);
         }
     }
 
     public Response getGroupById(Request request) {
         Integer groupId = getGroupId(request.getPath());
-        try{
-            return generateDefaultResponse(dbController.getGroupById(groupId), request, "200 OK");
-        } catch (Exception e) {
+        try {
+            return generateDefaultResponse(repository.getById(groupId), request, "200 OK");
+        } catch (RepositoryException e) {
             return print404Response(request);
         }
     }
@@ -43,18 +37,21 @@ public class GroupsHandler {
         Group group = new Group();
         try {
             group = mapper.readValue(request.getBody(), Group.class);
-            group = dbController.create(group);
+            group = repository.create(group);
+            return generateDefaultResponse(group, request, "201 Created");
+        } catch (RepositoryException e) {
+            return print404Response(request);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return generateDefaultResponse(group, request, "201 Created");
+        return print404Response(request);
     }
 
     public Response deleteGroup(Request request) {
         Integer groupId = getGroupId(request.getPath());
-        try{
-            return generateDefaultResponse(dbController.delete(groupId), request, "204 No Content");
-        } catch (Exception e){
+        try {
+            return generateDefaultResponse(repository.delete(groupId), request, "204 No Content");
+        } catch (RepositoryException e) {
             return print404Response(request);
         }
     }
@@ -63,12 +60,13 @@ public class GroupsHandler {
         Integer groupId = getGroupId(request.getPath());
         Group patch = (Group) request.getBodyAsObject(Group.class);
         Group groupToReturn = null;
-        try{
-            groupToReturn = dbController.update(groupId, patch);
-        } catch (Exception e){
-            e.printStackTrace();
+        try {
+            groupToReturn = repository.update(groupId, patch);
+            return generateDefaultResponse(groupToReturn, request, "201 Modified");
+        } catch (RepositoryException e) {
+            return print404Response(request);
         }
-        return generateDefaultResponse(groupToReturn, request, "201 Modified");
+
     }
 
     private Integer getGroupId(String route) {
@@ -81,7 +79,7 @@ public class GroupsHandler {
             Response response = new Response(request.getProtocol(), status);
             response.addHeaderParameter("Content-Type: application/json; charset=utf-8");
             response.addHeaderParameter("Access-Control-Allow-Origin: *");
-            response.setBody(getStringForBody(data));
+            if (data != null) response.setBody(getStringForBody(data));
             return response;
         } catch (Exception e) {
             return new Response();

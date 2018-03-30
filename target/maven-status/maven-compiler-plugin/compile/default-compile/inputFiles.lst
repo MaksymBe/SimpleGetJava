@@ -2,12 +2,13 @@
 /home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/MethodAndPath.java
 /home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/Router.java
 /home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/Dispatcher.java
-/home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/DBController.java
 /home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/Server.java
 /home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/RequestParser.java
 /home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/Response.java
+/home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/SQLRepositoryForGroups.java
 /home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/Group.java
 /home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/Route.java
 /home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/Request.java
+/home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/Repository.java
 /home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/Main.java
 /home/intern/IdeaProjects/SimpleGet/EasyGet/src/main/java/GroupsHandler.java
