@@ -2,7 +2,7 @@ package Core;
 
 import Framework.RepositoryException;
 
-public interface Repository<T> {
+public interface IRepository<T> {
     T[] getAll() throws RepositoryException;
 
     T getById(Integer id) throws RepositoryException;

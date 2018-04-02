@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class GroupsHandler {
     private ObjectMapper mapper = new ObjectMapper();
-    private Repository<Group> repository;
+    private IRepository<Group> repository;
 
     public GroupsHandler() {
         repository = new SQLRepositoryForGroups("max", "qwerty");

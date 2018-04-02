@@ -5,7 +5,7 @@ import Framework.RepositoryException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class SQLRepositoryForGroups implements Repository<Group> {
+public class SQLRepositoryForGroups implements IRepository<Group> {
     private Connection connection;
     private Statement statement;
 

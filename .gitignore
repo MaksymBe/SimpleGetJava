@@ -1,4 +1,4 @@
 *.class
-Main.jar
+Core.Main.jar
 out/
 .idea/
