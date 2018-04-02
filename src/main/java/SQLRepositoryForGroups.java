@@ -13,7 +13,7 @@ public class SQLRepositoryForGroups implements Repository<Group> {
                 Thread.sleep(500);
                 Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
                 connection = DriverManager
-                        .getConnection("jdbc:mysql://localhost:3306/internshipsystem?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false",
+                        .getConnection("jdbc:mysql://172.17.0.2/internshipsystem?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false",
                                 name,
                                 pass);
                 statement = connection.createStatement();

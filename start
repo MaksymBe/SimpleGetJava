@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
-
-docker run --name mysql-container -v $(pwd)/database.sql:/docker-entrypoint-initdb.d/database.sql -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 mysql/mysql-server
-
 mvn compile -q
 mvn package -q
 
-cd target
-java -jar EasyGet-1.0-SNAPSHOT.jar
-cd ..
+docker build -t java-img .
+
+docker run --name mysql-container -v $(pwd)/database.sql:/docker-entrypoint-initdb.d/database.sql -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 mysql/mysql-server
+
+docker run --name java-container  -d -p 3000:3000 java-img

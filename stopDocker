@@ -2,3 +2,6 @@
 
 docker stop mysql-container
 docker rm mysql-container
+
+docker stop java-container
+docker rm java-container
