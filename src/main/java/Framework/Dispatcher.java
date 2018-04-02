@@ -1,3 +1,5 @@
+package Framework;
+
 public class Dispatcher {
     private Router router;
 
@@ -23,7 +25,7 @@ public class Dispatcher {
             response.addHeaderParameter("Access-Control-Allow-Origin: " + request.getHeaders("origin"));
             response.addHeaderParameter("Connection: keep-alive");
             response.addHeaderParameter("Content-Length: 0");
-            response.addHeaderParameter("Vary: Origin, Access-Control-Request-Headers");
+            response.addHeaderParameter("Vary: Origin, Access-Control-Framework.Request-Headers");
             return response;
         } catch (Exception e) {
             return new Response();

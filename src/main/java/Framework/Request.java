@@ -1,3 +1,5 @@
+package Framework;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Hashtable;

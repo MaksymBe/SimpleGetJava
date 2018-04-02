@@ -1,3 +1,7 @@
+package Framework;
+
+import Framework.Request;
+
 import java.io.*;
 import java.util.Hashtable;
 
@@ -67,7 +71,7 @@ public class RequestParser {
 
     private void setRequestLine(String query) throws Exception {
         if (query == null || query.length() == 0) {
-            throw new Exception("Invalid Request Query: " + query);
+            throw new Exception("Invalid Framework.Request Query: " + query);
         }
         String[] queryArray = query.split(" ");
         this.method = queryArray[0];

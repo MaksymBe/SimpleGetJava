@@ -1,14 +1,19 @@
+package Core;
+
+import Framework.RepositoryException;
+import Framework.Request;
+import Framework.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class GroupsHandler {
     private ObjectMapper mapper = new ObjectMapper();
     private Repository<Group> repository;
 
-    GroupsHandler() {
+    public GroupsHandler() {
         repository = new SQLRepositoryForGroups("max", "qwerty");
     }
 
-    GroupsHandler(String userName, String pass) {
+    public GroupsHandler(String userName, String pass) {
         try {
             repository = new SQLRepositoryForGroups(userName, pass);
         } catch (Exception e) {
@@ -95,7 +100,7 @@ public class GroupsHandler {
             Response response = new Response("HTTP/1.1", "404 Not Found ");
             response.addHeaderParameter("Content-Type: plain/text");
             response.addHeaderParameter("Connection: close");
-            response.setBody("Group not found");
+            response.setBody("Core.Group not found");
             return response;
         } catch (Exception e) {
             return new Response();

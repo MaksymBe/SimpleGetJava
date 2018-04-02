@@ -1,13 +1,17 @@
+package Core;
+
+import Framework.RepositoryException;
+
 import java.sql.*;
 import java.util.ArrayList;
 
 public class SQLRepositoryForGroups implements Repository<Group> {
     private Connection connection;
     private Statement statement;
-    private boolean connected = false;
 
     public SQLRepositoryForGroups(String name, String pass) {
         System.out.print("Connecting to database:");
+        boolean connected = false;
         while (!connected) {
             try {
                 Thread.sleep(500);

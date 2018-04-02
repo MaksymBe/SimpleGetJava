@@ -1,3 +1,5 @@
+package Core;
+
 public class Group {
     private String name;
     private String periodStart;

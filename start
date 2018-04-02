@@ -6,4 +6,4 @@ docker build -t java-img .
 
 docker run --name mysql-container -v $(pwd)/database.sql:/docker-entrypoint-initdb.d/database.sql -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 mysql/mysql-server
 
-docker run --name java-container  -d -p 3000:3000 java-img
+docker run --name java-container -p 3000:3000 java-img

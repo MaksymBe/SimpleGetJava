@@ -1,3 +1,5 @@
+package Framework;
+
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -5,12 +7,12 @@ public class Route {
     private Handler handler;
     private HashMap<String, Integer> params;
 
-    Route(Handler handler) {
+    public Route(Handler handler) {
         this.handler = handler;
         params = new HashMap<>();
     }
 
-    Route(Handler handler, HashMap<String, Integer> params) {
+    public Route(Handler handler, HashMap<String, Integer> params) {
         this.handler = handler;
         this.params = params;
     }

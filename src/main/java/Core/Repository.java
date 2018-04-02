@@ -1,3 +1,7 @@
+package Core;
+
+import Framework.RepositoryException;
+
 public interface Repository<T> {
     T[] getAll() throws RepositoryException;
 

@@ -1,19 +1,19 @@
+package Framework;
+
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Hashtable;
 
-class Response {
+public class Response {
     private String protocol;
     private String status;
     private Hashtable<String, String> headers;
     private StringBuffer body;
 
 
-    Response() {
+    public Response() {
         headers = new Hashtable<>();
         body = new StringBuffer();
-
-
     }
 
     public Response(String protocol, String status, Hashtable<String, String> headers, StringBuffer body) {
@@ -23,7 +23,7 @@ class Response {
         this.body = body;
     }
 
-    Response(String protocol, String status) {
+    public Response(String protocol, String status) {
 
         this.protocol = protocol;
         this.status = status;
@@ -31,7 +31,7 @@ class Response {
         body = new StringBuffer();
     }
 
-    void setBody(String bodyLine) {
+    public void setBody(String bodyLine) {
         body.append(bodyLine).append("\r\n");
     }
 
@@ -61,7 +61,7 @@ class Response {
         return headersAsString[0];
     }
 
-    StringBuffer getBody() {
+    public StringBuffer getBody() {
         return body;
     }
 
