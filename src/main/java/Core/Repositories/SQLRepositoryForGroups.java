@@ -1,5 +1,7 @@
-package Core;
+package Core.Repositories;
 
+import Core.Group;
+import Core.IRepository;
 import Framework.RepositoryException;
 
 import java.sql.*;

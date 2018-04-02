@@ -3,7 +3,6 @@ package Core.Controllers;
 
 import Core.Group;
 import Core.Repositories.GroupsRepository;
-import Core.SQLRepositoryForGroups;
 import Framework.RepositoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

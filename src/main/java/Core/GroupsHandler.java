@@ -1,5 +1,6 @@
 package Core;
 
+import Core.Repositories.SQLRepositoryForGroups;
 import Framework.RepositoryException;
 import Framework.Request;
 import Framework.Response;
