@@ -58,8 +58,10 @@ public class GroupsRepository implements IRepository<Group> {
     }
 
     public Group update(Integer id, Group updatedGroup) throws RepositoryException {
+        Group group = getById(id);
+        group.patch(updatedGroup);
         String sql = "UPDATE groups SET name=?, periodStart=?, periodFinish=? WHERE id=?";
-        jdbcTemplate.update(sql, updatedGroup.getName(), updatedGroup.getPeriodStart(), updatedGroup.getPeriodFinish(), id);
-        return getById(id);
+        jdbcTemplate.update(sql, group.getName(), group.getPeriodStart(), group.getPeriodFinish(), id);
+        return group;
     }
 }
