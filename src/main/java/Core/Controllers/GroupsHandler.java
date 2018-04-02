@@ -1,5 +1,7 @@
-package Core;
+package Core.Controllers;
 
+import Core.Group;
+import Core.Repositories.IRepository;
 import Core.Repositories.SQLRepositoryForGroups;
 import Framework.RepositoryException;
 import Framework.Request;

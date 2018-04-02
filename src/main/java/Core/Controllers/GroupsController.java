@@ -12,13 +12,14 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "*")
 @RestController
+@RequestMapping(value = "/groups")
 public class GroupsController {
 
     //private SQLRepositoryForGroups repositoryForGroups = new SQLRepositoryForGroups("max", "qwerty");
     @Autowired
     GroupsRepository repositoryForGroups;
 
-    @GetMapping("/groups")
+    @GetMapping("")
     public ResponseEntity<Group[]> getAllGroups() {
         try {
             return ResponseEntity.ok().body(repositoryForGroups.getAll());
@@ -27,7 +28,7 @@ public class GroupsController {
         }
     }
 
-    @GetMapping("/groups/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Group> getGroupById(@PathVariable(value = "id") Integer groupId) {
         try {
             return ResponseEntity.ok().body(repositoryForGroups.getById(groupId));
@@ -36,7 +37,7 @@ public class GroupsController {
         }
     }
 
-    @PostMapping("/groups")
+    @PostMapping("")
     public ResponseEntity<Group> createGroup(@Valid @RequestBody Group newGroup) {
         try {
             return ResponseEntity.status(204).body(repositoryForGroups.create(newGroup));
@@ -45,7 +46,7 @@ public class GroupsController {
         }
     }
 
-    @DeleteMapping("/groups/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Group> deleteGroup(@PathVariable(value = "id") Integer groupId) {
         try {
             repositoryForGroups.delete(groupId);
@@ -55,7 +56,7 @@ public class GroupsController {
         }
     }
 
-    @PatchMapping("/groups/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Group> updateGroup(@PathVariable(value = "id") Integer groupId, @RequestBody Group newGroup) {
         try {
             return ResponseEntity.status(201).body(repositoryForGroups.update(groupId, newGroup));

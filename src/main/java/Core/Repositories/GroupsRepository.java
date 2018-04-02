@@ -1,7 +1,6 @@
 package Core.Repositories;
 
 import Core.Group;
-import Core.IRepository;
 import Framework.RepositoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -31,8 +30,12 @@ public class GroupsRepository implements IRepository<Group> {
     }
 
     public Group getById(Integer id) throws RepositoryException {
-        String sql = "SELECT * FROM groups WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, rowMapper, id);
+        try{
+            String sql = "SELECT * FROM groups WHERE id = ?";
+            return jdbcTemplate.queryForObject(sql, rowMapper, id);
+        } catch (Exception e){
+            throw new RepositoryException();
+        }
     }
 
     public Group create(Group newGroup) throws RepositoryException {
