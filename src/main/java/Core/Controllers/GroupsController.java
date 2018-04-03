@@ -2,10 +2,7 @@ package Core.Controllers;
 
 
 import Core.Group;
-import Core.Repositories.GroupsRepositoryJDBCTemplate;
-import Core.Repositories.GroupsRepositoryJPA;
 import Core.Repositories.GroupsRepositoryJPAImpl;
-import Core.Repositories.IRepository;
 import Framework.RepositoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
