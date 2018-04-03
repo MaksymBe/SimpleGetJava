@@ -1,15 +1,30 @@
 package Core;
 
-public class Group {
-    private String name;
-    private String periodStart;
-    private String periodFinish;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.sql.Date;
+
+@Entity
+@Table(name = "groups")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Group implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id")
     private Integer id;
+    @Column(name="name")
+    private String name;
+    @Column(name="periodStart")
+    private Date periodStart;
+    @Column(name="periodFinish")
+    private Date periodFinish;
 
     public Group() {
     }
 
-    public Group(String name, String periodStart, String periodFinish, Integer id) {
+    public Group(String name, Date periodStart, Date periodFinish, Integer id) {
         this.name = name;
         this.periodStart = periodStart;
         this.periodFinish = periodFinish;
@@ -24,19 +39,19 @@ public class Group {
         this.name = name;
     }
 
-    public String getPeriodStart() {
+    public Date getPeriodStart() {
         return periodStart;
     }
 
-    public void setPeriodStart(String periodStart) {
+    public void setPeriodStart(Date periodStart) {
         this.periodStart = periodStart;
     }
 
-    public String getPeriodFinish() {
+    public Date getPeriodFinish() {
         return periodFinish;
     }
 
-    public void setPeriodFinish(String periodFinish) {
+    public void setPeriodFinish(Date periodFinish) {
         this.periodFinish = periodFinish;
     }
 

@@ -13,25 +13,31 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 
 @Repository
-public class GroupsRepository implements IRepository<Group> {
+public class GroupsRepositoryJDBCTemplate implements IRepository<Group> {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     RowMapper<Group> rowMapper = new BeanPropertyRowMapper<>(Group.class);
 
-    public GroupsRepository(JdbcTemplate jdbcTemplate) {
+    public GroupsRepositoryJDBCTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public Group[] getAll() throws RepositoryException {
-        String sql = "SELECT * FROM groups";
-        return this.jdbcTemplate.query(sql, rowMapper).toArray(new Group[]{});
+        try{
+            String sql = "SELECT * FROM groups";
+            return this.jdbcTemplate.query(sql, rowMapper).toArray(new Group[]{});
+        } catch (Exception e){
+            throw new RepositoryException();
+        }
     }
 
     public Group getById(Integer id) throws RepositoryException {
         try{
-            String sql = "SELECT * FROM groups WHERE id = ?";
+            String sql ="SELECT * " +
+                        "FROM groups " +
+                        "WHERE id = ?";
             return jdbcTemplate.queryForObject(sql, rowMapper, id);
         } catch (Exception e){
             throw new RepositoryException();
@@ -45,8 +51,8 @@ public class GroupsRepository implements IRepository<Group> {
                 connection -> {
                     PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
                     ps.setString(1, newGroup.getName());
-                    ps.setString(2, newGroup.getPeriodStart());
-                    ps.setString(3, newGroup.getPeriodFinish());
+                    ps.setString(2, newGroup.getPeriodStart().toString());
+                    ps.setString(3, newGroup.getPeriodFinish().toString());
                     return ps;
                 }, keyHolder);
         Number key = keyHolder.getKey();

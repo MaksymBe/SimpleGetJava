@@ -103,8 +103,8 @@ public class SQLRepositoryForGroups implements IRepository<Group> {
             Group group = new Group();
             group.setId(resultSet.getInt(1));
             group.setName(resultSet.getString("name"));
-            group.setPeriodStart(resultSet.getString("periodStart"));
-            group.setPeriodFinish(resultSet.getString("periodFinish"));
+            group.setPeriodStart(resultSet.getDate("periodStart"));
+            group.setPeriodFinish(resultSet.getDate("periodFinish"));
             return group;
         } catch (SQLException e) {
             throw new RepositoryException();

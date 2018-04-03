@@ -2,7 +2,10 @@ package Core.Controllers;
 
 
 import Core.Group;
-import Core.Repositories.GroupsRepository;
+import Core.Repositories.GroupsRepositoryJDBCTemplate;
+import Core.Repositories.GroupsRepositoryJPA;
+import Core.Repositories.GroupsRepositoryJPAImpl;
+import Core.Repositories.IRepository;
 import Framework.RepositoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,22 +19,29 @@ import javax.validation.Valid;
 public class GroupsController {
 
     //private SQLRepositoryForGroups repositoryForGroups = new SQLRepositoryForGroups("max", "qwerty");
+    /*@Autowired
+    GroupsRepositoryJDBCTemplate repositoryForGroups;*/
+
+
     @Autowired
-    GroupsRepository repositoryForGroups;
+    GroupsRepositoryJPAImpl repositoryForGroups;
 
     @GetMapping("")
     public ResponseEntity<Group[]> getAllGroups() {
         try {
             return ResponseEntity.ok().body(repositoryForGroups.getAll());
         } catch (RepositoryException e) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(500).build();
         }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Group> getGroupById(@PathVariable(value = "id") Integer groupId) {
         try {
-            return ResponseEntity.ok().body(repositoryForGroups.getById(groupId));
+            Group group = repositoryForGroups.getById(groupId);
+            if(group.getId()==null) return ResponseEntity.notFound().build();
+            else
+            return ResponseEntity.ok().body(group);
         } catch (RepositoryException e) {
             return ResponseEntity.notFound().build();
         }
