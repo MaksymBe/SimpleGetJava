@@ -25,9 +25,9 @@ public class GroupsRepositoryJPAImpl implements IRepository<Group> {
 
     public Group getById(Integer id) throws RepositoryException {
         try{
-            Group group = repository.getOne(id);
+            Group group = repository.findById(id).get();
             return group;
-        } catch (org.springframework.dao.EmptyResultDataAccessException e){
+        } catch (java.util.NoSuchElementException e){
             throw new RepositoryException();
         }
     }

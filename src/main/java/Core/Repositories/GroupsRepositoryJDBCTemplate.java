@@ -1,3 +1,4 @@
+/*
 package Core.Repositories;
 
 import Core.Group;
@@ -74,3 +75,4 @@ public class GroupsRepositoryJDBCTemplate implements IRepository<Group> {
         return group;
     }
 }
+*/
