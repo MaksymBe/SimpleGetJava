@@ -1,8 +1,8 @@
-package Core.Controllers;
+package SpringWebApp.Core.Controllers;
 
 
-import Core.Group;
-import Core.Repositories.GroupsRepositoryJPAImpl;
+import SpringWebApp.Core.Group;
+import SpringWebApp.Core.Repositories.GroupsRepositoryJPAImpl;
 import Framework.RepositoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

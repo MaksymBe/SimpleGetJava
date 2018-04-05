@@ -1,4 +1,4 @@
-package Core.Repositories;
+package SpringWebApp.Core.Repositories;
 
 import Framework.RepositoryException;
 

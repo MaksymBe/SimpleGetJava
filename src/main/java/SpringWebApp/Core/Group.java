@@ -1,4 +1,4 @@
-package Core;
+package SpringWebApp.Core;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -11,7 +11,7 @@ import java.sql.Date;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Group implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Integer id;
     @Column(name="name")

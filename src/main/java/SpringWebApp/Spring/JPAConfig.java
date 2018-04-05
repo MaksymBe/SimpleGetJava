@@ -1,4 +1,4 @@
-package Spring;
+package SpringWebApp.Spring;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,9 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan("Core")
+@ComponentScan("SpringWebApp.Core")
 @PropertySource({"classpath:application.properties"})
-@EnableJpaRepositories(basePackages = "Core")
+@EnableJpaRepositories(basePackages = "SpringWebApp.Core")
 public class JPAConfig {
 
     private final Environment env;
@@ -30,15 +30,15 @@ public class JPAConfig {
     }
 
     @Bean
-    public JpaTransactionManager transactionManager(){
+    public JpaTransactionManager transactionManager() {
         return new JpaTransactionManager(entityManagerFactory().getObject());
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         localContainerEntityManagerFactoryBean.setDataSource(getDataSource());
-        localContainerEntityManagerFactoryBean.setPackagesToScan("Core");
+        localContainerEntityManagerFactoryBean.setPackagesToScan("SpringWebApp.Core");
         JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
         localContainerEntityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
         localContainerEntityManagerFactoryBean.setJpaProperties(hibernateProperties());
@@ -56,7 +56,7 @@ public class JPAConfig {
     }
 
     @Bean
-    public DataSource getDataSource(){
+    public DataSource getDataSource() {
         DataSource dataSource = new MysqlDataSource();
         ((MysqlDataSource) dataSource).setURL(env.getProperty("spring.datasource.url"));
         ((MysqlDataSource) dataSource).setUser(env.getProperty("spring.datasource.username"));

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <property name="runtime_classpath" refid="maven.runtime.classpath"/>
+  <java fork="true" classname="SpringWebApp.Core.Main">
+    <classpath>
+      <pathelement path="${runtime_classpath}"/>
+    </classpath>
+  </java>
+</target>
+</project>

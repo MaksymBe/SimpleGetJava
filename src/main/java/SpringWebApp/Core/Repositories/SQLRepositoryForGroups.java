@@ -1,6 +1,6 @@
-package Core.Repositories;
+package SpringWebApp.Core.Repositories;
 
-import Core.Group;
+import SpringWebApp.Core.Group;
 import Framework.RepositoryException;
 
 import java.sql.*;

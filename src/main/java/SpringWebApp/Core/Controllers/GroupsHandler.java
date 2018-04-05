@@ -1,8 +1,8 @@
-package Core.Controllers;
+package SpringWebApp.Core.Controllers;
 
-import Core.Group;
-import Core.Repositories.IRepository;
-import Core.Repositories.SQLRepositoryForGroups;
+import SpringWebApp.Core.Group;
+import SpringWebApp.Core.Repositories.IRepository;
+import SpringWebApp.Core.Repositories.SQLRepositoryForGroups;
 import Framework.RepositoryException;
 import Framework.Request;
 import Framework.Response;

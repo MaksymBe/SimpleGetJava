@@ -1,4 +1,4 @@
-package Spring;
+package SpringWebApp.Spring;
 
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.*;
@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "Core")
+@ComponentScan(basePackages = "SpringWebApp.Core")
 @PropertySource("classpath:/application.properties")
 @Import({JPAConfig.class, WebConfig.class})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
