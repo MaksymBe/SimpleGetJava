@@ -27,14 +27,15 @@ public class Router {
                 methodAndPath.addParameter(word.substring(1, word.length()));
             }
         }
-        methodAndPath.setPath(path.replaceAll("/\\d+(/|$)", "/:id/"));
+        String pathToHandler = path.replaceAll("/:\\w+(/|$)", "/:id/");
+        methodAndPath.setPath(pathToHandler);
         handlers.put(methodAndPath, handler);
     }
 
     public Route getRoute(String method, String path) {
         Handler handler;
         String[] pathWords = path.split("/");
-        path = path.replaceAll("/\\d+/", "/:id/");
+        path = path.replaceAll("/\\d+(/|$)", "/:id/");
         if ((handler = handlers.get(new MethodAndPath(method, path))) == null) return new Route(this::print404Response);
         HashMap<String, Integer> params = new HashMap<>();
         MethodAndPath[] keys = handlers.keySet().toArray(new MethodAndPath[]{});

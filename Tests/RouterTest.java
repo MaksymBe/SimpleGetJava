@@ -21,4 +21,18 @@ class RouterTest {
 
         Assertions.assertEquals(result, router.getRoute("GET", "/groups/5/"));
     }
+
+    @Test
+    void getSpecificParam(){
+        Router router = new Router();
+        router.addHandler("GET", "/groups/:id/interns/:internId", r->null);
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("id", 5);
+        map.put("internId", 5);
+
+        Route route = router.getRoute("GET", "/groups/5/interns/7");
+
+        Assertions.assertEquals(new Integer(5), route.getParams().get("id"));
+        Assertions.assertEquals(new Integer(7), route.getParams().get("internId"));
+    }
 }

@@ -17,7 +17,7 @@ public class Main {
     private final Tomcat tomcat;
 
     public static void main(String[] args) throws Exception {
-        new Main(3000).run();
+        new Main().run();
     }
 
     public Main() throws Exception {
